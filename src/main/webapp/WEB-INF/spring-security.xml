@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:p="http://www.springframework.org/schema/p"
+   xmlns:tx="http://www.springframework.org/schema/tx"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context.xsd
+  http://www.springframework.org/schema/mvc
+  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+  http://www.springframework.org/schema/tx 
+  http://www.springframework.org/schema/tx/spring-tx.xsd"
+   xmlns:context="http://www.springframework.org/schema/context" 
+   xmlns:mvc="http://www.springframework.org/schema/mvc"
+   xmlns:security="http://www.springframework.org/schema/security">
+   <import resource="spring-servlet.xml" />
+
+    <!--<context:component-scan base-package="com.ideas2it.ratingSystem" />-->
+    <security:global-method-security secured-annotations="enabled" />
+           
+    <!--<security:http auto-config="true">
+      <security:intercept-url pattern="/" access="permitAll" />-->
+
+    <security:http auto-config="true">
+      <security:intercept-url pattern="/login" access="permitAll" />
+      <security:intercept-url pattern="/logout" access="permitAll" />
+      <security:intercept-url pattern="/loginError" access="permitAll" />
+      <security:intercept-url pattern="/*" access="isAuthenticated()" />
+      <!--<security:access-denied-handler error-page="/denyAccess" />-->
+      <security:form-login  
+		    login-page="/login" 
+		    default-target-url="/employee-home" 
+			authentication-failure-url="/loginError" 
+			username-parameter="username"
+			password-parameter="password" />
+		
+	<security:logout logout-success-url="/login" />
+    <security:csrf disabled="true"/>
+    </security:http>
+      
+    <security:authentication-manager>
+      <security:authentication-provider ref="customAuthenticationProvider"/>
+    </security:authentication-manager>   
+
+</beans>

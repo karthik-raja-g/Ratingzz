@@ -1,0 +1,38 @@
+body {
+  font-family: Arial;
+  color: white;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+}
+
+.centered:hover {
+    background-color: black;
+    color: green;
+}
+
+.centered2 {
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.centered2:hover {
+    background-color: black;
+    color: green;
+}
+
+
+

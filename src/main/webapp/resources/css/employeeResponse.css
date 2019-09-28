@@ -1,0 +1,13 @@
+* {
+ box-sizing: border-box;
+}
+
+.create {
+  background-color:#F0F8FF;
+  width:40%; 
+  align-items:center; 
+  border-radius:7%; 
+  height:80%; 
+  margin:auto;
+  overflow:scroll;
+}

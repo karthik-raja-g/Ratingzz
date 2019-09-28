@@ -1,0 +1,86 @@
+ <beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xsi:schemaLocation="   http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context.xsd
+ http://www.springframework.org/schema/aop
+ http://www.springframework.org/schema/aop/spring-aop.xsd
+ http://www.springframework.org/schema/mvc
+ http://www.springframework.org/schema/mvc/spring-mvc.xsd
+ http://www.springframework.org/schema/tx
+ http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+   <mvc:annotation-driven/>
+   <context:component-scan base-package="com.ideas2it.ratingsystem" />
+   <context:property-placeholder location="classpath:application.properties" />    
+   
+   <bean id="viewResolver"
+    class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+       <property name="prefix">
+           <value>WEB-INF/jsp/</value>
+       </property>
+       <property name="suffix">
+           <value>.jsp</value>
+       </property>
+   </bean>
+  <!-- <mvc:resources mapping="/css/**" location="/css/" />-->
+   <mvc:resources mapping="/resources/**" location="/resources/" />
+
+   <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+        id="dataSource">
+        <property name="driverClassName" value="${database.driver}"></property>
+        <property name="url" value="${database.url}"></property>
+        <property name="username" value="${database.user}"></property>
+        <property name="password" value="${database.password}"></property>
+    </bean>
+   
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+            </props>
+        </property>
+        <property name="packagesToScan" value="com.ideas2it.ratingsystem.model"></property>
+    </bean>
+
+   <!-- Transaction -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+   <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+       <property name="sessionFactory" ref="sessionFactory"/>
+   </bean>
+
+   <bean id="hibernateTemplateBean" class="org.springframework.orm.hibernate5.HibernateTemplate">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+    <bean id="multipartResolver"  
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <!-- SMTP settings -->
+        <property name="host" value="${mail.smtp}" />
+        <property name="port" value="${mail.port}" />
+        <property name="username" value="${mail.username}" />
+        <property name="password" value="${mail.password}"/>
+     
+        <property name="javaMailProperties">
+            <!-- additional properties specific to JavaMail -->
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

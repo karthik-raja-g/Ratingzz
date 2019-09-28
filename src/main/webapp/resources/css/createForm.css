@@ -1,0 +1,14 @@
+* {
+ box-sizing: border-box;
+}
+
+.create {
+  background-color:blue;
+  width:40%;
+  height:50%; 
+  align-items:center; 
+  border-radius:7%; 
+  height:80%; 
+  margin:auto;
+  
+}
